@@ -1,0 +1,26 @@
+# ─────────────────────────────────────────────────────────────
+# Netlify configuration file for the pageview_counter service
+# ─────────────────────────────────────────────────────────────
+
+[build]
+  # Set the working directory to the pageview_counter folder
+  base = "pageview_counter"
+
+  # This is where Netlify looks for serverless functions (inside pageview_counter/netlify/)
+  functions = "netlify"
+
+  # Publish directory for static files (not used here, but required)
+  publish = "."
+
+# ─────────────────────────────────────────────────────────────
+# Redirects: create clean URLs to access Netlify Functions
+# ─────────────────────────────────────────────────────────────
+[[redirects]]
+  # Allow URLs like /api/visit to proxy to the actual function path
+  from = "/api/*"
+
+  # This tells Netlify to rewrite /api/visit to /.netlify/functions/visit
+  to = "/.netlify/functions/:splat"
+
+  # Use status 200 so the path behaves like a normal route (not a redirect)
+  status = 200
