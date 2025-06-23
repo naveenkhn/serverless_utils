@@ -3,7 +3,7 @@
 version = 0.1
 
 [default.global.parameters]
-stack_name = "pageview_counter"
+stack_name = "pageview-counter"
 region = "ap-south-1"
 
 [default.build.parameters]

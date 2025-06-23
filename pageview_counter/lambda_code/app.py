@@ -14,6 +14,8 @@ logger.setLevel(logging.INFO)
 # Lambda function to handle pageview counting
 def lambda_handler(event, context):
     try:
+        logger.info("Lambda triggered with event: %s", json.dumps(event))
+        logger.info("Attempting to update DynamoDB table: %s", table_name)
         # Increment the view count atomically in DynamoDB
         response = table.update_item(
             Key={"page": "home"},
@@ -22,6 +24,7 @@ def lambda_handler(event, context):
             ExpressionAttributeValues={":incr": 1},
             ReturnValues="UPDATED_NEW"
         )
+        logger.info("DynamoDB update response: %s", json.dumps(response))
         views = response["Attributes"]["views"]
         # Return the updated view count in the response
         return {
