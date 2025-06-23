@@ -1,0 +1,12 @@
+{
+  "httpMethod": "GET",
+  "resource": "/visit",
+  "path": "/visit",
+  "isBase64Encoded": false,
+  "headers": {
+    "Host": "localhost"
+  },
+  "requestContext": {
+    "stage": "Prod"
+  }
+}

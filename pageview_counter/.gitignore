@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment files
+.env
+.venv
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# SAM build artifacts
+.aws-sam/
+
+# VS Code
+.vscode/
+
+# Python test caches
+.pytest_cache/
+.mypy_cache/
+.coverage
+*.cover
+
+# Packaging
+build/
+dist/
+*.egg-info/
