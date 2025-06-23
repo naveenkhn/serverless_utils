@@ -13,7 +13,8 @@ def lambda_handler(event, context):
         # Increment the view count atomically in DynamoDB
         response = table.update_item(
             Key={"page": "home"},
-            UpdateExpression="ADD views :incr",
+            UpdateExpression="ADD #v :incr",
+            ExpressionAttributeNames={"#v": "views"},
             ExpressionAttributeValues={":incr": 1},
             ReturnValues="UPDATED_NEW"
         )
