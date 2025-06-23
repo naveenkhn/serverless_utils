@@ -37,6 +37,23 @@ After deployment, the API is available at:
 https://<api-id>.execute-api.<region>.amazonaws.com/Prod/visit/
 ```
 
+The deployed endpoint is:
+
+```
+https://f9qw6hmni6.execute-api.ap-south-1.amazonaws.com/Prod/visit/
+```
+
+You can test it using:
+
+```bash
+curl https://f9qw6hmni6.execute-api.ap-south-1.amazonaws.com/Prod/visit/
+```
+
+Example response:
+```json
+{"views": 3}
+```
+
 Each `GET` request to `/visit` increments the `views` counter for the page "home" stored in DynamoDB and returns the updated count.
 
 ## Requirements
