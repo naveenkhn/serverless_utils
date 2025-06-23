@@ -2,6 +2,7 @@ import json
 import boto3
 import logging
 from botocore.exceptions import ClientError
+import traceback
 
 # Initialize DynamoDB resource and specify the table
 dynamodb = boto3.resource("dynamodb")
@@ -24,8 +25,8 @@ def lambda_handler(event, context):
             ExpressionAttributeValues={":incr": 1},
             ReturnValues="UPDATED_NEW"
         )
-        logger.info("DynamoDB update response: %s", json.dumps(response))
-        views = response["Attributes"]["views"]
+        logger.info("DynamoDB update response: %s", response)
+        views = int(response["Attributes"]["views"])
         # Return the updated view count in the response
         return {
             "statusCode": 200,
@@ -37,13 +38,16 @@ def lambda_handler(event, context):
         }
 
     except ClientError as e:
-        logger.error("DynamoDB update failed", exc_info=True)
-        # Handle any DynamoDB client errors and return error message
+        logger.error("DynamoDB update failed: %s", str(e))
+        logger.error("Traceback: %s", traceback.format_exc())
         return {
             "statusCode": 500,
             "headers": {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             },
-            "body": json.dumps({"error": e.response["Error"]["Message"]})
+            "body": json.dumps({
+                "error": e.response["Error"]["Message"],
+                "trace": traceback.format_exc()
+            })
         }
