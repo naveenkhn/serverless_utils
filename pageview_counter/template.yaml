@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  sam-app
+  pageview_counter
 
-  Sample SAM Template for sam-app
+  Serverless pageview tracking service using Lambda and DynamoDB
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -19,6 +19,9 @@ Resources:
       Runtime: python3.9
       Architectures:
         - x86_64
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: pageview_counter
       Events:
         PageviewApi:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -26,16 +29,28 @@ Resources:
             Path: /visit
             Method: get
 
+  PageviewCounterTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: pageview_counter
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: page
+          AttributeType: S
+      KeySchema:
+        - AttributeName: page
+          KeyType: HASH
+
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   PageviewCounterApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Description: "API Gateway endpoint URL for Prod stage for the pageview counter function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visit/"
   PageviewCounterFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "Pageview Counter Lambda Function ARN"
     Value: !GetAtt PageviewCounterFunction.Arn
   PageviewCounterFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
+    Description: "Implicit IAM Role created for the Pageview Counter function"
     Value: !GetAtt PageviewCounterFunctionRole.Arn

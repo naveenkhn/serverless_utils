@@ -3,7 +3,8 @@
 version = 0.1
 
 [default.global.parameters]
-stack_name = "sam-app"
+stack_name = "pageview_counter"
+region = "ap-south-1"
 
 [default.build.parameters]
 cached = true
@@ -16,11 +17,7 @@ lint = true
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
 resolve_s3 = true
-stack_name = "pageview-counter"
-s3_prefix = "pageview-counter"
 region = "ap-south-1"
-disable_rollback = true
-image_repositories = []
 
 [default.package.parameters]
 resolve_s3 = true
